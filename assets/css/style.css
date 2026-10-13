@@ -284,12 +284,64 @@ section, footer.contact{
 /* image treatment: quiet duotone -> full color on hover */
 .echo-grid img, .project__solo, .project__still img, .poster-row img, .gallery-grid img{
   filter: grayscale(0.55) sepia(0.12) contrast(1.02);
-  transition: filter .5s ease, transform .5s ease;
+  transition: filter .5s ease;
   border-radius:2px;
 }
 .echo-grid img:hover, .project__solo:hover, .project__still:hover img, .poster-row img:hover, .gallery-grid img:hover{
   filter: grayscale(0) sepia(0) contrast(1.02);
-  transform: scale(1.015);
+}
+
+body img:not(.lightbox__image){ cursor: zoom-in; }
+
+.lightbox{
+  width: min(96vw, 1400px);
+  max-width: none;
+  max-height: 94vh;
+  padding: 1rem;
+  border: 1px solid rgba(243,237,225,0.2);
+  background: rgba(23,19,15,0.96);
+  color: var(--paper);
+}
+.lightbox::backdrop{ background: rgba(12,10,8,0.88); }
+.lightbox__bar{
+  display:flex; align-items:center; justify-content:flex-end; gap:0.6rem;
+  margin-bottom:0.75rem;
+}
+.lightbox__control{
+  min-width:2.6rem; min-height:2.6rem;
+  border:1px solid rgba(243,237,225,0.38);
+  border-radius:2px;
+  background:transparent; color:var(--paper);
+  font:inherit; cursor:pointer;
+}
+.lightbox__control:hover, .lightbox__control:focus-visible{
+  background:var(--paper); color:var(--ink);
+}
+.lightbox__control--close{ margin-left:0.6rem; }
+.lightbox__viewport{
+  max-height:78vh;
+  overflow:auto;
+  text-align:center;
+}
+.lightbox__image{
+  display:inline-block;
+  max-width: min(88vw, 1200px);
+  max-height:76vh;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  transform-origin:center center;
+  transition:transform .2s ease;
+  cursor:zoom-in;
+}
+.lightbox__caption{
+  margin:0.75rem 0 0;
+  color:rgba(243,237,225,0.82);
+  font-size:0.9rem;
+  text-align:center;
+}
+@media (prefers-reduced-motion: reduce){
+  .lightbox__image{ transition:none; }
 }
 
 .echo-grid{
@@ -300,15 +352,14 @@ section, footer.contact{
 
 .project__hero{ margin: 0 0 2rem; }
 .project__hero img{
-  width:100%; aspect-ratio: 16/6; object-fit:cover;
+  width:100%; height:auto;
   border-radius:2px;
 }
 
 .gallery-grid{
-  column-count:3; column-gap: 1rem; margin-top: 2.2rem;
+  column-count:2; column-gap: 1rem; margin-top: 2.2rem;
 }
 .gallery-grid img{ width:100%; margin: 0 0 1rem; break-inside: avoid; background:#fff; }
-@media (max-width:860px){ .gallery-grid{ column-count:2; } }
 @media (max-width:520px){ .gallery-grid{ column-count:1; } }
 
 .project__still{ position:relative; display:block; }
@@ -324,24 +375,23 @@ section, footer.contact{
 
 .poster-row{ display:flex; gap:1.6rem; margin-top:2rem; flex-wrap:wrap; }
 .poster-row img{
-  width: clamp(160px, 24vw, 260px);
-  aspect-ratio: 9/16; object-fit:cover;
+  width: clamp(220px, 30vw, 340px);
+  height:auto;
   box-shadow: 0 22px 40px -18px rgba(23,19,15,0.4);
 }
 .poster-row img:nth-child(1){ transform: rotate(-3deg); }
 .poster-row img:nth-child(2){ transform: rotate(2deg); }
-.poster-row img:hover{ transform: rotate(0) scale(1.03); }
+.poster-row img:hover{ transform: rotate(0); }
 
 .social-row{
   display:flex; gap:1.2rem; margin-top:2rem; flex-wrap:wrap;
 }
 .social-row img{
   flex: 1 1 320px;
-  width:100%; aspect-ratio: 16/6; object-fit:cover;
+  width:100%; height:auto;
   border: 1px solid var(--line);
   filter: none;
 }
-.social-row img:hover{ transform:none; }
 
 .stat-row{
   display:grid; grid-template-columns: repeat(4, 1fr);
@@ -363,19 +413,19 @@ section, footer.contact{
 }
 
 .process-strip{
-  display:flex; gap:1.2rem; flex-wrap:wrap;
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.2rem;
   margin-top: 2.2rem;
 }
-.process-strip figure{ margin:0; flex: 1 1 200px; max-width:260px; }
+.process-strip figure{ margin:0; min-width:0; }
 .process-strip img{
-  width:100%; aspect-ratio: 4/3; object-fit:contain;
+  width:100%; height:auto;
   background: #fff;
   border: 1px solid var(--line);
   border-radius: 2px;
   filter:none;
   padding: 0.4rem;
 }
-.process-strip img:hover{ transform:none; }
+@media (max-width:640px){ .process-strip{ grid-template-columns:1fr; } }
 .process-strip figcaption{
   margin-top:0.6rem; font-size:0.78rem; letter-spacing:0.03em;
   color: var(--ink-soft); text-transform:uppercase;
